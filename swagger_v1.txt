@@ -1,0 +1,49 @@
+from flask import Flask,request
+from flask_restplus import Api, Resource
+
+app = Flask(__name__)
+api = Api(app)
+
+name_space = api.namespace('devices', description='Main APIs')
+
+@name_space.route("/")
+class MainClass(Resource):
+	def get(self):
+		return {
+			"status": "Got new data"
+		}
+	def post(self):
+		return {
+			"status": "Posted new data"
+		}
+
+name_space = api.namespace('query', description='query values')
+
+@name_space.route("/")
+class MainClass(Resource):
+	def get(self):
+		return {
+			"status": "Got new data"
+		}
+	def post(self):
+		return {
+			"status": "Posted new data"
+		}
+
+
+name_space = api.namespace('query device', description='for devices')
+
+@name_space.route("/")
+class MainClass(Resource):
+	def get(self):
+		return {
+			"status": "Got new data"
+		}
+	def post(self):
+		return {
+			"status": "Posted new data"
+		}
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
