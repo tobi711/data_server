@@ -1,0 +1,48 @@
+from flask import Flask, jsonify,make_response
+import json 
+from flask_restplus import reqparse
+
+import requests
+from requests.structures import CaseInsensitiveDict
+
+app = Flask(__name__)
+
+command = '''	curl -X GET --header 'Accept: application/json' 
+				--header 'Authorization: key ttn-account-v2.8Kmm3rcp_YVL4u6j7EKxubrdxzPnt9oozHqmi8nDcvE'	
+ 				'https://besucherstromanalyse_hs.data.thethingsnetwork.org/api/v2/query?last=1h'
+ 		'''
+
+@app.before_request
+def before_request_func():
+    print("before_request is running!")
+
+
+@app.route('/', methods=['GET']) 
+def start():
+
+	url = ('https://besucherstromanalyse_hs.data.thethingsnetwork.org/api/v2/query?last=2d')
+
+	headers = CaseInsensitiveDict()
+	headers["Accept"] = "application/json"
+	headers["Authorization"] = "key ttn-account-v2.8Kmm3rcp_YVL4u6j7EKxubrdxzPnt9oozHqmi8nDcvE"
+
+	resp = requests.get(url, headers=headers)
+
+	parser = reqparse.RequestParser()
+	parser.add_argument('device_id', location='form')
+	parser.add_argument('macsBuffer',location='form')
+
+	args = parser.parse_args()
+
+	print(args)
+
+	
+	print(resp)
+	print(resp.content)
+	return 'Hello {}'.format(resp.content)
+
+
+
+ 
+if __name__ == '__main__':
+    app.run(debug=True,port = 5000)
